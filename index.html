@@ -7,17 +7,22 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Chosen Palette: Warm Neutrals (White, Gray, Indigo/Purple) -->
-    <!-- Application Structure Plan: UI Updates: Purple text for active roles and active nav links. -->
+    <!-- Application Structure Plan: UI Updates: Responsive Mobile Navigation added. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         .nav-link {
             @apply px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors cursor-pointer;
         }
-        /* UPDATED: Active Nav Link - Purple Letters */
+        /* Active Nav Link - Purple Letters */
         .nav-link.active {
             @apply text-purple-700 font-extrabold bg-purple-50;
         }
         
+        /* Mobile Nav Link Styles */
+        .mobile-nav-link {
+            @apply block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-purple-700 hover:bg-purple-50 transition-colors;
+        }
+
         .flow-step {
             @apply bg-white border-2 border-gray-300 rounded-lg p-4 text-center cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-indigo-500;
         }
@@ -28,12 +33,11 @@
             @apply text-3xl text-gray-400 mx-2 hidden md:block;
         }
 
-        /* UPDATED Role Button Styles - Purple Text on Active */
+        /* Role Button Styles - Purple Text on Active */
         .role-button {
             @apply px-6 py-3 text-sm md:text-base font-bold rounded-2xl border-2 border-gray-200 bg-white text-gray-500 transition-all duration-300 hover:border-purple-300 hover:text-purple-600;
         }
         .role-button.active {
-            /* Changed from solid background to Purple Text + Border */
             @apply text-purple-700 border-purple-600 bg-purple-50 shadow-md transform scale-105;
         }
 
@@ -59,12 +63,15 @@
 <body class="bg-gray-50 font-sans antialiased">
 
     <!-- Header & Navigation -->
-    <nav id="navbar" class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100">
+    <nav id="navbar" class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     <span class="text-2xl font-extrabold text-indigo-600 tracking-tight">FastClass</span>
                 </div>
+                
+                <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <a href="#problem" data-target="problem" class="nav-link" data-i18n="nav_problem">The Problem</a>
@@ -75,7 +82,7 @@
                         <a href="#scalability" data-target="scalability" class="nav-link" data-i18n="nav_scalability">Scalability</a>
                     </div>
                     
-                    <!-- Language Dropdown -->
+                    <!-- Language Dropdown (Desktop) -->
                     <div class="ml-6 relative border-l pl-6 border-gray-300">
                         <button id="langDropdownBtn" class="flex items-center text-sm font-bold text-indigo-600 hover:text-indigo-800 focus:outline-none transition-colors">
                             <span id="currentLangLabel">EN</span>
@@ -94,7 +101,42 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
+                <!-- Mobile Menu Button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" id="mobile-menu-btn" class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-purple-600 hover:bg-purple-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <!-- Icon when menu is closed -->
+                        <svg id="icon-menu-closed" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <!-- Icon when menu is open -->
+                        <svg id="icon-menu-open" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div class="hidden md:hidden bg-white border-t border-gray-100 shadow-lg" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#problem" class="mobile-nav-link" data-i18n="nav_problem">The Problem</a>
+                <a href="#solution" class="mobile-nav-link" data-i18n="nav_solution">The Solution</a>
+                <a href="#lifecycle" class="mobile-nav-link" data-i18n="nav_lifecycle">Lifecycle</a>
+                <a href="#roles" class="mobile-nav-link" data-i18n="nav_roles">Roles</a>
+                <a href="#data" class="mobile-nav-link" data-i18n="nav_data">Data</a>
+                <a href="#scalability" class="mobile-nav-link" data-i18n="nav_scalability">Scalability</a>
+            </div>
+            <div class="pt-4 pb-4 border-t border-gray-200 px-5">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-gray-500 uppercase tracking-wider">Language</span>
+                    <div class="flex gap-3">
+                        <button onclick="changeLanguage('en'); toggleMobileMenu()" class="px-4 py-2 rounded-lg border-2 border-gray-200 text-sm font-bold text-gray-700 bg-white hover:border-purple-500 hover:text-purple-700 transition-all shadow-sm">EN</button>
+                        <button onclick="changeLanguage('pt'); toggleMobileMenu()" class="px-4 py-2 rounded-lg border-2 border-gray-200 text-sm font-bold text-gray-700 bg-white hover:border-purple-500 hover:text-purple-700 transition-all shadow-sm">PT</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -507,8 +549,8 @@
                 scale_feat_3_desc: "Os Gestores de Centro podem extrair dados tipo 'Excel' para qualquer análise personalizada ou relatório offline.",
                 footer_subtitle: "Gestão de Explicações de Nova Geração.",
                 footer_copyright: "&copy; 2025 FastClass. Todos os direitos reservados.",
-                chart_label: "Payout Rate (€/hr)",
-                chart_labels: ['Basic (Elem.)', 'Secondary (Mid/High)', 'Superior (College)']
+                chart_label: "Valor Hora (€/hr)",
+                chart_labels: ['Básico (1º-9º)', 'Secundário (10º-12º)', 'Superior (Univ.)']
             }
         };
 
@@ -595,6 +637,23 @@
             `;
         }
 
+        // Toggle Mobile Menu Visibility
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const iconClosed = document.getElementById('icon-menu-closed');
+            const iconOpen = document.getElementById('icon-menu-open');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+                iconClosed.classList.add('hidden');
+                iconOpen.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+                iconClosed.classList.remove('hidden');
+                iconOpen.classList.add('hidden');
+            }
+        }
+
         // Global function to be called from HTML buttons
         window.changeLanguage = function(lang) {
             currentLang = lang;
@@ -614,7 +673,8 @@
             }
             
             // Close dropdown
-            document.getElementById('langDropdownMenu').classList.add('hidden');
+            const dropdownMenu = document.getElementById('langDropdownMenu');
+            if (dropdownMenu) dropdownMenu.classList.add('hidden');
 
             // 3. Update Dynamic Sections (Role & Flowchart)
             // Re-trigger role update to refresh text
@@ -637,6 +697,20 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Mobile Menu Button Handler ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            }
+
+            // Close mobile menu when clicking a link
+            const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    toggleMobileMenu();
+                });
+            });
 
             // --- Dropdown Logic ---
             const dropdownBtn = document.getElementById('langDropdownBtn');
