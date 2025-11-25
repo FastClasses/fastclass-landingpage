@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastClass - Center Management Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Warm Neutrals (White, Gray, Indigo/Purple) -->
+    <!-- Application Structure Plan: UI Updates: Purple text for active roles and active nav links. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        .nav-link {
+            @apply px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors cursor-pointer;
+        }
+        /* UPDATED: Active Nav Link - Purple Letters */
+        .nav-link.active {
+            @apply text-purple-700 font-extrabold bg-purple-50;
+        }
+        
+        .flow-step {
+            @apply bg-white border-2 border-gray-300 rounded-lg p-4 text-center cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-indigo-500;
+        }
+        .flow-step.active {
+            @apply border-indigo-600 bg-indigo-50 shadow-xl scale-105;
+        }
+        .flow-arrow {
+            @apply text-3xl text-gray-400 mx-2 hidden md:block;
+        }
+
+        /* UPDATED Role Button Styles - Purple Text on Active */
+        .role-button {
+            @apply px-6 py-3 text-sm md:text-base font-bold rounded-2xl border-2 border-gray-200 bg-white text-gray-500 transition-all duration-300 hover:border-purple-300 hover:text-purple-600;
+        }
+        .role-button.active {
+            /* Changed from solid background to Purple Text + Border */
+            @apply text-purple-700 border-purple-600 bg-purple-50 shadow-md transform scale-105;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .role-image {
+            transition: opacity 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+
+    <!-- Header & Navigation -->
+    <nav id="navbar" class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-2xl font-extrabold text-indigo-600 tracking-tight">FastClass</span>
+                </div>
+                <div class="hidden md:flex items-center">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#problem" data-target="problem" class="nav-link" data-i18n="nav_problem">The Problem</a>
+                        <a href="#solution" data-target="solution" class="nav-link" data-i18n="nav_solution">The Solution</a>
+                        <a href="#lifecycle" data-target="lifecycle" class="nav-link" data-i18n="nav_lifecycle">Lifecycle</a>
+                        <a href="#roles" data-target="roles" class="nav-link" data-i18n="nav_roles">Roles</a>
+                        <a href="#data" data-target="data" class="nav-link" data-i18n="nav_data">Data</a>
+                        <a href="#scalability" data-target="scalability" class="nav-link" data-i18n="nav_scalability">Scalability</a>
+                    </div>
+                    
+                    <!-- Language Dropdown -->
+                    <div class="ml-6 relative border-l pl-6 border-gray-300">
+                        <button id="langDropdownBtn" class="flex items-center text-sm font-bold text-indigo-600 hover:text-indigo-800 focus:outline-none transition-colors">
+                            <span id="currentLangLabel">EN</span>
+                            <span class="ml-1 text-xs">▼</span>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div id="langDropdownMenu" class="hidden absolute right-0 top-full mt-2 w-32 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50 overflow-hidden transform origin-top-right transition-all duration-200">
+                            <div class="py-1">
+                                <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors" onclick="changeLanguage('en')">
+                                    English
+                                </button>
+                                <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors" onclick="changeLanguage('pt')">
+                                    Português
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <header class="relative bg-gray-900 text-white overflow-hidden">
+            <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Education Background" class="w-full h-full object-cover opacity-30">
+            </div>
+            <div class="relative max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl">
+                    <span class="block" data-i18n="hero_welcome">Welcome to</span>
+                    <span class="block text-indigo-400 mt-2">FastClass</span>
+                </h1>
+                <p class="mt-6 text-xl text-gray-300 max-w-3xl mx-auto font-light" data-i18n="hero_subtitle">
+                    Next-Gen Tutorship Center Management. A Role-Based, Data-Driven Platform for Operations & Finance.
+                </p>
+            </div>
+        </header>
+
+        <!-- Section 1: The Problem -->
+        <section id="problem" class="py-16 md:py-24 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row items-center gap-12 mb-12">
+                    <div class="md:w-1/2">
+                        <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="problem_title">Managing a Center is Chaos</h2>
+                        <p class="mt-4 text-lg text-gray-600" data-i18n="problem_desc">
+                            Tutorship centers face constant challenges from fragmented data, scheduling conflicts, and opaque financials. Without a centralized system, growth is impossible.
+                        </p>
+                    </div>
+                    <div class="md:w-1/2 rounded-xl overflow-hidden shadow-lg">
+                         <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Chaotic planning" class="w-full h-64 object-cover">
+                    </div>
+                </div>
+                
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-indigo-500">
+                        <h3 class="text-xl font-semibold text-indigo-600" data-i18n="card_schedule_title">Scheduling Conflicts</h3>
+                        <p class="mt-3 text-gray-600" data-i18n="card_schedule_desc">Tutors and students often misalign, leading to confusion and lost time.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-indigo-500">
+                        <h3 class="text-xl font-semibold text-indigo-600" data-i18n="card_finance_title">Financial Blind Spots</h3>
+                        <p class="mt-3 text-gray-600" data-i18n="card_finance_desc">Hard to track who owes what (Debt vs. Prepaid Packs).</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-indigo-500">
+                        <h3 class="text-xl font-semibold text-indigo-600" data-i18n="card_data_title">Data Fragmentation</h3>
+                        <p class="mt-3 text-gray-600" data-i18n="card_data_desc">Attendance, homework, and billing data are stored in different places.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-indigo-500">
+                        <h3 class="text-xl font-semibold text-indigo-600" data-i18n="card_billing_title">Billing Nightmares</h3>
+                        <p class="mt-3 text-gray-600" data-i18n="card_billing_desc">Calculating tutor payouts vs. student bills manually is error-prone.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: The Solution -->
+        <section id="solution" class="py-16 md:py-24 bg-white relative overflow-hidden">
+             <!-- Background decoration -->
+            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-indigo-50 opacity-50 blur-3xl"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="solution_title">One Platform, Five Roles, Total Control</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto" data-i18n="solution_subtitle">
+                        FastClass is a centralized web platform ensuring data isolation and customized management. 
+                    </p>
+                </div>
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="p-8 rounded-2xl bg-gray-50 hover:bg-indigo-50 transition-colors duration-300">
+                        <span class="text-4xl">🔐</span>
+                        <h3 class="text-xl font-bold text-gray-900 mt-4" data-i18n="pillar_rbac_title">1. Role-Based Access</h3>
+                        <p class="mt-3 text-gray-600" data-i18n="pillar_rbac_desc">Every user (Director, Tutor, Parent) sees exactly what they need, and nothing they don't.</p>
+                    </div>
+                    <div class="p-8 rounded-2xl bg-gray-50 hover:bg-indigo-50 transition-colors duration-300">
+                        <span class="text-4xl">💳</span>
+                        <h3 class="text-xl font-bold text-gray-900 mt-4" data-i18n="pillar_billing_title">2. Hybrid Billing Engine</h3>
+                        <p class="mt-3 text-gray-600" data-i18n="pillar_billing_desc">Seamlessly handles both prepaid hour packs and post-paid monthly billing in one system.</p>
+                    </div>
+                    <div class="p-8 rounded-2xl bg-gray-50 hover:bg-indigo-50 transition-colors duration-300">
+                        <span class="text-4xl">📊</span>
+                        <h3 class="text-xl font-bold text-gray-900 mt-4" data-i18n="pillar_metrics_title">3. Automated Metrics</h3>
+                        <p class="mt-3 text-gray-600" data-i18n="pillar_metrics_desc">Instantly track everything from individual tutor payouts to overall center revenue.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Operational Lifecycle -->
+        <section id="lifecycle" class="py-16 md:py-24 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="lifecycle_title">From Schedule to Invoice</h2>
+                    <p class="mt-4 text-lg text-gray-600" data-i18n="lifecycle_subtitle">
+                        FastClass automates the entire operational flow. Click on any step below to see the details of how it works.
+                    </p>
+                </div>
+                <div class="mt-16">
+                    <div id="flowchart" class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                        <div class="flow-step" data-flow="schedule">
+                            <span class="text-2xl">🗓️</span>
+                            <p class="font-semibold mt-2" data-i18n="step_1">1. Scheduling</p>
+                        </div>
+                        <span class="flow-arrow rotate-90 md:rotate-0">→</span>
+                        <div class="flow-step" data-flow="execution">
+                            <span class="text-2xl">✍️</span>
+                            <p class="font-semibold mt-2" data-i18n="step_2">2. Execution & Logging</p>
+                        </div>
+                        <span class="flow-arrow rotate-90 md:rotate-0">→</span>
+                        <div class="flow-step" data-flow="logic">
+                            <span class="text-2xl">⚙️</span>
+                            <p class="font-semibold mt-2" data-i18n="step_3">3. The Logic Gate</p>
+                        </div>
+                        <span class="flow-arrow rotate-90 md:rotate-0">→</span>
+                        <div class="flow-step" data-flow="result">
+                            <span class="text-2xl">📊</span>
+                            <p class="font-semibold mt-2" data-i18n="step_4">4. Result & Reports</p>
+                        </div>
+                    </div>
+                    <div id="flow-details" class="mt-12 max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-xl min-h-[150px] flex items-center justify-center border border-gray-100">
+                        <p id="flow-text" class="text-center text-gray-700 text-lg" data-i18n="flow_click_prompt">Click a step to see details.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Role-Based Intelligence -->
+        <section id="roles" class="py-16 md:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="roles_title">Empowering the Right People</h2>
+                    <p class="mt-4 text-lg text-gray-600" data-i18n="roles_subtitle">
+                        The platform provides specific, tailored capabilities for each user. Click a role to explore its unique permissions.
+                    </p>
+                </div>
+                <div id="role-buttons" class="mt-12 flex flex-wrap justify-center gap-3 md:gap-4">
+                    <button class="role-button" data-role="director" data-i18n="role_btn_director">Director</button>
+                    <button class="role-button" data-role="manager" data-i18n="role_btn_manager">Manager</button>
+                    <button class="role-button active" data-role="tutor" data-i18n="role_btn_tutor">Tutor</button>
+                    <button class="role-button" data-role="parent" data-i18n="role_btn_parent">Parent</button>
+                    <button class="role-button" data-role="student" data-i18n="role_btn_student">Student</button>
+                </div>
+                <div class="mt-10 max-w-5xl mx-auto">
+                    <!-- JS will populate this with 2 columns: Text + Image -->
+                    <div id="role-content" class="bg-gray-50 rounded-2xl shadow-inner border border-gray-200 overflow-hidden transition-all duration-300">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Data & Billing -->
+        <section id="data" class="py-16 md:py-24 bg-indigo-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="data_title">Granular Data Tracking</h2>
+                    <p class="mt-4 text-lg text-gray-600" data-i18n="data_subtitle">
+                        Every piece of data is captured, linked, and analyzed to provide clear insights into both academics and finance.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- Left Side: Attributes -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg h-full">
+                        <h3 class="text-2xl font-bold text-gray-800 border-b pb-4 mb-6" data-i18n="class_attr_title">Class Attributes</h3>
+                        <p class="text-gray-600 mb-4" data-i18n="class_attr_desc">Tutors log crucial academic data for every session:</p>
+                        <ul class="space-y-4 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="mr-2 mt-1 text-green-500">✔</span>
+                                <span data-i18n="attr_attendance"><strong>Attendance:</strong> Present/Absent tracking.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="mr-2 mt-1 text-green-500">✔</span>
+                                <span data-i18n="attr_lateness"><strong>Lateness:</strong> Precise minute tracking (metrics only - does not affect price).</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="mr-2 mt-1 text-green-500">✔</span>
+                                <span data-i18n="attr_homework"><strong>Homework:</strong> Tracked for academic reporting and parent visibility.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="mr-2 mt-1 text-green-500">✔</span>
+                                <span data-i18n="attr_obs"><strong>Observations:</strong> Qualitative notes for parents and managers.</span>
+                            </li>
+                        </ul>
+                        <h3 class="text-2xl font-bold text-gray-800 border-b pb-4 mb-6 mt-10" data-i18n="billing_attr_title">Billing Attributes</h3>
+                        <ul class="space-y-4 text-gray-700">
+                             <li class="flex items-start">
+                                <span class="mr-2 mt-1 text-blue-500">➜</span>
+                                <span data-i18n="attr_payout"><strong>Tutor Payouts:</strong> Differentiated rates for Basic, Secondary, and Superior education levels.</span>
+                            </li>
+                             <li class="flex items-start">
+                                <span class="mr-2 mt-1 text-blue-500">➜</span>
+                                <span data-i18n="attr_id"><strong>Student ID:</strong> Linked to Citizen Card & Tax ID for automatic, compliant invoicing.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Right Side: Chart -->
+                    <div class="bg-white p-8 rounded-2xl shadow-lg h-full flex flex-col justify-center">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4" data-i18n="chart_title">Sample Tutor Payout Logic</h3>
+                        <p class="text-sm text-gray-500 mb-6" data-i18n="chart_subtitle">
+                            FastClass automatically calculates tutor earnings based on class difficulty.
+                        </p>
+                        <div class="chart-container">
+                            <canvas id="payoutChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Future Scalability -->
+        <section id="scalability" class="py-16 md:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                         <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="scale_title">Built for Growth</h2>
+                        <p class="mt-4 text-lg text-gray-600" data-i18n="scale_desc">
+                            FastClass is designed to scale with your business, from a single center to a national franchise.
+                        </p>
+                        <div class="mt-8 space-y-6">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                                        🌍
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900" data-i18n="scale_feat_1_title">Multi-Tenant Architecture</h3>
+                                    <p class="mt-2 text-base text-gray-500" data-i18n="scale_feat_1_desc">Subdomains allow for infinite, secure scaling for different tutoring centers, each with its own data.</p>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                                        🛠️
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900" data-i18n="scale_feat_2_title">Admin Access</h3>
+                                    <p class="mt-2 text-base text-gray-500" data-i18n="scale_feat_2_desc">A reserved maintenance backdoor for our team to handle bug fixes and deploy updates seamlessly.</p>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                                        📥
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900" data-i18n="scale_feat_3_title">Exportable Data</h3>
+                                    <p class="mt-2 text-base text-gray-500" data-i18n="scale_feat_3_desc">Center Managers can pull "Excel-like" dumps for any custom analysis or offline reporting they need.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rounded-xl overflow-hidden shadow-xl">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Growth and Scaling" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-2xl font-bold text-white">FastClass</span>
+                <p class="mt-2 text-sm text-gray-400" data-i18n="footer_subtitle">Next-Gen Tutorship Management.</p>
+            </div>
+            <div class="text-sm">
+                <p data-i18n="footer_copyright">&copy; 2025 FastClass. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. Translation Dictionary (i18n) ---
+        const translations = {
+            en: {
+                nav_problem: "The Problem",
+                nav_solution: "The Solution",
+                nav_lifecycle: "Lifecycle",
+                nav_roles: "Roles",
+                nav_data: "Data",
+                nav_scalability: "Scalability",
+                hero_welcome: "Welcome to",
+                hero_subtitle: "Next-Gen Tutorship Center Management. A Role-Based, Data-Driven Platform for Operations & Finance.",
+                problem_title: "Managing a Center is Chaos",
+                problem_desc: "Tutorship centers face constant challenges from fragmented data, scheduling conflicts, and opaque financials. Without a centralized system, growth is impossible.",
+                card_schedule_title: "Scheduling Conflicts",
+                card_schedule_desc: "Tutors and students often misalign, leading to confusion and lost time.",
+                card_finance_title: "Financial Blind Spots",
+                card_finance_desc: "Hard to track who owes what (Debt vs. Prepaid Packs).",
+                card_data_title: "Data Fragmentation",
+                card_data_desc: "Attendance, homework, and billing data are stored in different places.",
+                card_billing_title: "Billing Nightmares",
+                card_billing_desc: "Calculating tutor payouts vs. student bills manually is error-prone.",
+                solution_title: "One Platform, Five Roles, Total Control",
+                solution_subtitle: "FastClass is a centralized web platform ensuring data isolation and customized management.",
+                pillar_rbac_title: "1. Role-Based Access",
+                pillar_rbac_desc: "Every user (Director, Tutor, Parent) sees exactly what they need, and nothing they don't.",
+                pillar_billing_title: "2. Hybrid Billing Engine",
+                pillar_billing_desc: "Seamlessly handles both prepaid hour packs and post-paid monthly billing in one system.",
+                pillar_metrics_title: "3. Automated Metrics",
+                pillar_metrics_desc: "Instantly track everything from individual tutor payouts to overall center revenue.",
+                lifecycle_title: "From Schedule to Invoice",
+                lifecycle_subtitle: "FastClass automates the entire operational flow. Click on any step below to see the details of how it works.",
+                step_1: "1. Scheduling",
+                step_2: "2. Execution & Logging",
+                step_3: "3. The Logic Gate",
+                step_4: "4. Result & Reports",
+                flow_click_prompt: "Click a step to see details.",
+                roles_title: "Empowering the Right People",
+                roles_subtitle: "The platform provides specific, tailored capabilities for each user. Click a role to explore its unique permissions.",
+                role_btn_director: "Director",
+                role_btn_manager: "Manager",
+                role_btn_tutor: "Tutor",
+                role_btn_parent: "Parent",
+                role_btn_student: "Student",
+                data_title: "Granular Data Tracking",
+                data_subtitle: "Every piece of data is captured, linked, and analyzed to provide clear insights into both academics and finance.",
+                class_attr_title: "Class Attributes",
+                class_attr_desc: "Tutors log crucial academic data for every session:",
+                attr_attendance: "<strong>Attendance:</strong> Present/Absent tracking.",
+                attr_lateness: "<strong>Lateness:</strong> Precise minute tracking (metrics only - does not affect price).",
+                attr_homework: "<strong>Homework:</strong> Tracked for academic reporting and parent visibility.",
+                attr_obs: "<strong>Observations:</strong> Qualitative notes for parents and managers.",
+                billing_attr_title: "Billing Attributes",
+                billing_attr_desc: "Finance is automated and accurate:",
+                attr_payout: "<strong>Tutor Payouts:</strong> Differentiated rates for Basic, Secondary, and Superior education levels.",
+                attr_id: "<strong>Student ID:</strong> Linked to Citizen Card & Tax ID for automatic, compliant invoicing.",
+                chart_title: "Sample Tutor Payout Logic",
+                chart_subtitle: "FastClass automatically calculates tutor earnings based on class difficulty.",
+                scale_title: "Built for Growth",
+                scale_desc: "FastClass is designed to scale with your business, from a single center to a national franchise.",
+                scale_feat_1_title: "Multi-Tenant Architecture",
+                scale_feat_1_desc: "Subdomains allow for infinite, secure scaling for different tutoring centers, each with its own data.",
+                scale_feat_2_title: "Admin Access",
+                scale_feat_2_desc: "A reserved maintenance backdoor for our team to handle bug fixes and deploy updates seamlessly.",
+                scale_feat_3_title: "Exportable Data",
+                scale_feat_3_desc: "Center Managers can pull 'Excel-like' dumps for any custom analysis or offline reporting they need.",
+                footer_subtitle: "Next-Gen Tutorship Management.",
+                footer_copyright: "&copy; 2025 FastClass. All rights reserved.",
+                chart_label: "Payout Rate (€/hr)",
+                chart_labels: ['Basic (Elem.)', 'Secondary (Mid/High)', 'Superior (College)']
+            },
+            pt: {
+                nav_problem: "O Problema",
+                nav_solution: "A Solução",
+                nav_lifecycle: "Ciclo de Vida",
+                nav_roles: "Funções",
+                nav_data: "Dados",
+                nav_scalability: "Escalabilidade",
+                hero_welcome: "Bem-vindo à",
+                hero_subtitle: "Gestão de Centros de Estudos de Nova Geração. Uma plataforma baseada em dados e permissões para Operações e Finanças.",
+                problem_title: "Gerir um Centro é um Caos",
+                problem_desc: "Os Centros de Estudos enfrentam desafios constantes devido a dados fragmentados, conflitos de horários e finanças opacas. Sem um sistema centralizado, o crescimento é impossível.",
+                card_schedule_title: "Conflitos de Horários",
+                card_schedule_desc: "Explicadores e alunos muitas vezes desencontram-se, levando a confusão e tempo perdido.",
+                card_finance_title: "Pontos Cegos Financeiros",
+                card_finance_desc: "Difícil controlar quem deve o quê (Dívida vs. Packs pré-pagos).",
+                card_data_title: "Fragmentação de Dados",
+                card_data_desc: "Presenças, trabalhos de casa e dados de faturação estão guardados em locais diferentes.",
+                card_billing_title: "Pesadelos de Faturação",
+                card_billing_desc: "Calcular pagamentos a explicadores vs. faturas de alunos manualmente está sujeito a erros.",
+                solution_title: "Uma Plataforma, Cinco Funções, Controlo Total",
+                solution_subtitle: "A FastClass é uma plataforma web centralizada que garante o isolamento de dados e gestão personalizada.",
+                pillar_rbac_title: "1. Acesso por Funções",
+                pillar_rbac_desc: "Cada utilizador (Diretor, Explicador, Pai) vê exatamente o que precisa, e nada mais.",
+                pillar_billing_title: "2. Motor de Faturação Híbrido",
+                pillar_billing_desc: "Gere sem problemas tanto packs de horas pré-pagos como faturação mensal pós-paga no mesmo sistema.",
+                pillar_metrics_title: "3. Métricas Automatizadas",
+                pillar_metrics_desc: "Acompanhe instantaneamente tudo, desde pagamentos individuais a explicadores até à receita total do centro.",
+                lifecycle_title: "Do Agendamento à Fatura",
+                lifecycle_subtitle: "A FastClass automatiza todo o fluxo operacional. Clique em qualquer passo abaixo para ver os detalhes.",
+                step_1: "1. Agendamento",
+                step_2: "2. Execução e Registo",
+                step_3: "3. A Lógica de Sistema",
+                step_4: "4. Resultado e Relatórios",
+                flow_click_prompt: "Clique num passo para ver detalhes.",
+                roles_title: "Capacitar as Pessoas Certas",
+                roles_subtitle: "A plataforma fornece capacidades específicas para cada utilizador. Clique numa função para explorar as suas permissões.",
+                role_btn_director: "Diretor",
+                role_btn_manager: "Gestor",
+                role_btn_tutor: "Explicador",
+                role_btn_parent: "Pais",
+                role_btn_student: "Aluno",
+                data_title: "Rastreio de Dados Granular",
+                data_subtitle: "Cada dado é capturado, ligado e analisado para fornecer insights claros tanto académicos como financeiros.",
+                class_attr_title: "Atributos da Aula",
+                class_attr_desc: "Os Explicadores registam dados académicos cruciais para cada sessão:",
+                attr_attendance: "<strong>Presença:</strong> Registo de Presente/Ausente.",
+                attr_lateness: "<strong>Atrasos:</strong> Registo preciso em minutos (apenas métrica - não afeta o preço).",
+                attr_homework: "<strong>TPC:</strong> Registados para relatórios académicos e visibilidade dos pais.",
+                attr_obs: "<strong>Observações:</strong> Notas qualitativas para pais e gestores.",
+                billing_attr_title: "Atributos de Faturação",
+                billing_attr_desc: "As finanças são automatizadas e precisas:",
+                attr_payout: "<strong>Pagamentos a Explicadores:</strong> Tarifas diferenciadas para níveis Básico, Secundário e Superior.",
+                attr_id: "<strong>ID do Aluno:</strong> Ligado ao Cartão de Cidadão e NIF para faturação automática e conforme.",
+                chart_title: "Exemplo de Lógica de Pagamento",
+                chart_subtitle: "A FastClass calcula automaticamente os ganhos do explicador com base na dificuldade da aula.",
+                scale_title: "Construído para Crescer",
+                scale_desc: "A FastClass foi desenhada para escalar com o seu negócio, desde um único centro até um franchising nacional.",
+                scale_feat_1_title: "Arquitetura Multi-Tenant",
+                scale_feat_1_desc: "Subdomínios permitem escalabilidade infinita e segura para diferentes centros de estudos, cada um com os seus próprios dados.",
+                scale_feat_2_title: "Acesso Admin",
+                scale_feat_2_desc: "Uma porta de manutenção reservada para a nossa equipa tratar de correções de bugs e atualizações sem problemas.",
+                scale_feat_3_title: "Dados Exportáveis",
+                scale_feat_3_desc: "Os Gestores de Centro podem extrair dados tipo 'Excel' para qualquer análise personalizada ou relatório offline.",
+                footer_subtitle: "Gestão de Explicações de Nova Geração.",
+                footer_copyright: "&copy; 2025 FastClass. Todos os direitos reservados.",
+                chart_label: "Payout Rate (€/hr)",
+                chart_labels: ['Basic (Elem.)', 'Secondary (Mid/High)', 'Superior (College)']
+            }
+        };
+
+        // --- 2. Dynamic Content Data (with EN/PT support) ---
+
+        const flowDetails = {
+            schedule: {
+                en: { title: "1. Scheduling", text: "Tutors or Managers book slots for specific students in their allowed subjects. The system cross-references availability." },
+                pt: { title: "1. Agendamento", text: "Explicadores ou Gestores reservam horários para alunos específicos nas disciplinas permitidas. O sistema cruza disponibilidades." }
+            },
+            execution: {
+                en: { title: "2. Execution & Logging", text: "The class happens. Afterward, the Tutor logs critical data: Attendance, Lateness (in minutes), Homework completion, and private Observations." },
+                pt: { title: "2. Execução e Registo", text: "A aula acontece. Depois, o Explicador regista dados críticos: Presença, Atraso (em minutos), TPC realizados e Observações privadas." }
+            },
+            logic: {
+                en: { title: "3. The Logic Gate", text: "The system checks the Student's balance. If Balance > 0, hours are automatically deducted from their prepaid pack. If Balance = 0, the class cost is added to their monthly 'Debt' sheet." },
+                pt: { title: "3. A Lógica de Sistema", text: "O sistema verifica o saldo do Aluno. Se Saldo > 0, as horas são deduzidas automaticamente do pack pré-pago. Se Saldo = 0, o custo da aula é adicionado à folha de 'Dívida' mensal." }
+            },
+            result: {
+                en: { title: "4. Result & Reports", text: "Tutor earnings are updated, Parent invoices are generated, and Managers get an Excel-ready report of all activities." },
+                pt: { title: "4. Resultado e Relatórios", text: "Os ganhos do Explicador são atualizados, faturas para os Pais são geradas e os Gestores obtêm um relatório pronto para Excel de todas as atividades." }
+            }
+        };
+
+        const roleDetails = {
+            director: {
+                icon: "👑",
+                image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                en: { title: "Director: The Strategist (God Mode)", desc: "Create all users, view full financial health, and manage center subscriptions." },
+                pt: { title: "Diretor: O Estratega (Modo Deus)", desc: "Cria todos os utilizadores, vê a saúde financeira completa e gere as subscrições do centro." }
+            },
+            manager: {
+                icon: "📈",
+                image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                en: { title: "Manager: The Operational Lead", desc: "View Center Revenue, edit all schedules, export data, manage billing, and create Tutors/Parents." },
+                pt: { title: "Gestor: O Líder Operacional", desc: "Vê a Receita do Centro, edita todos os horários, exporta dados, gere faturação e cria Explicadores/Pais." }
+            },
+            tutor: {
+                icon: "🧑‍🏫",
+                image: "https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                en: { title: "Tutor: The Frontline", desc: "Log class details, view Parent Contacts for communication, and track own monthly earnings." },
+                pt: { title: "Explicador: A Linha da Frente", desc: "Regista detalhes da aula, vê Contactos dos Pais para comunicação e acompanha os seus próprios ganhos mensais." }
+            },
+            parent: {
+                icon: "👨‍👩‍👧",
+                image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                en: { title: "Parent: The Stakeholder", desc: "Get full transparency. View child's schedule, see homework status, and check detailed bill sheets." },
+                pt: { title: "Pais: Os Encarregados", desc: "Obtenha transparência total. Veja o horário do filho, o estado dos TPC e verifique as folhas de faturação detalhadas." }
+            },
+            student: {
+                icon: "🎓",
+                image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                en: { title: "Student: The End-User", desc: "Stay engaged and organized by viewing all upcoming classes and personal session history." },
+                pt: { title: "Aluno: O Utilizador Final", desc: "Mantenha-se envolvido e organizado vendo todas as próximas aulas e o histórico pessoal de sessões." }
+            }
+        };
+
+        // --- 3. App State & Logic ---
+        
+        let currentLang = 'en';
+        let currentRole = 'tutor';
+        let chartInstance = null;
+
+        // Moved function to global scope to avoid closure/access issues
+        function updateRoleContent(roleKey) {
+            currentRole = roleKey;
+            const data = roleDetails[roleKey];
+            const text = data[currentLang];
+            const container = document.getElementById('role-content');
+            
+            if (!container) return; // Guard clause if DOM not ready (though typically is when called)
+
+            container.innerHTML = `
+                <div class="flex flex-col md:flex-row h-full">
+                    <div class="md:w-1/2 p-8 flex flex-col justify-center">
+                        <div class="text-5xl mb-4">${data.icon}</div>
+                        <h3 class="text-2xl font-bold text-gray-900">${text.title}</h3>
+                        <p class="mt-4 text-lg text-gray-600 leading-relaxed">${text.desc}</p>
+                    </div>
+                    <div class="md:w-1/2 h-64 md:h-auto">
+                        <img src="${data.image}" alt="${text.title}" class="w-full h-full object-cover role-image">
+                    </div>
+                </div>
+            `;
+        }
+
+        // Global function to be called from HTML buttons
+        window.changeLanguage = function(lang) {
+            currentLang = lang;
+            
+            // 1. Update Static Text
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            // 2. Update Toggle Dropdown Button
+            const langLabel = document.getElementById('currentLangLabel');
+            if(langLabel) {
+                langLabel.textContent = lang.toUpperCase();
+            }
+            
+            // Close dropdown
+            document.getElementById('langDropdownMenu').classList.add('hidden');
+
+            // 3. Update Dynamic Sections (Role & Flowchart)
+            // Re-trigger role update to refresh text
+            updateRoleContent(currentRole);
+            
+            // Clear flowchart active state text to prompt
+            document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active'));
+            const flowText = document.getElementById('flow-text');
+            if(flowText) {
+                flowText.innerHTML = translations[lang].flow_click_prompt;
+            }
+
+            // 4. Update Chart
+            if(chartInstance) {
+                chartInstance.data.labels = translations[lang].chart_labels;
+                chartInstance.data.datasets[0].label = translations[lang].chart_label;
+                chartInstance.options.scales.y.title.text = translations[lang].chart_label;
+                chartInstance.update();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Dropdown Logic ---
+            const dropdownBtn = document.getElementById('langDropdownBtn');
+            const dropdownMenu = document.getElementById('langDropdownMenu');
+
+            if(dropdownBtn && dropdownMenu) {
+                dropdownBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('hidden');
+                });
+
+                // Close when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!dropdownBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        dropdownMenu.classList.add('hidden');
+                    }
+                });
+            }
+
+            // --- Section 3: Lifecycle Flowchart ---
+            const flowchart = document.getElementById('flowchart');
+            const flowSteps = flowchart.querySelectorAll('.flow-step');
+            const flowText = document.getElementById('flow-text');
+
+            flowchart.addEventListener('click', (e) => {
+                const step = e.target.closest('.flow-step');
+                if (!step) return;
+
+                const flowKey = step.dataset.flow;
+                const details = flowDetails[flowKey][currentLang]; // Use currentLang
+
+                flowSteps.forEach(s => s.classList.remove('active'));
+                step.classList.add('active');
+
+                flowText.innerHTML = `<strong class="block text-xl text-indigo-600 mb-2">${details.title}</strong><p class="text-gray-600 leading-relaxed">${details.text}</p>`;
+            });
+
+            // --- Section 4: Role-Based Intelligence ---
+            const roleButtonContainer = document.getElementById('role-buttons');
+            const roleButtons = roleButtonContainer.querySelectorAll('.role-button');
+
+            roleButtonContainer.addEventListener('click', (e) => {
+                const button = e.target.closest('.role-button');
+                if (!button) return;
+                const roleKey = button.dataset.role;
+                roleButtons.forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+                updateRoleContent(roleKey);
+            });
+
+            // --- Section 5: Data & Billing Chart ---
+            const ctx = document.getElementById('payoutChart').getContext('2d');
+            
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: translations['en'].chart_labels,
+                    datasets: [{
+                        label: translations['en'].chart_label,
+                        data: [15, 20, 30],
+                        backgroundColor: [
+                            'rgba(165, 180, 252, 0.6)',
+                            'rgba(129, 140, 248, 0.6)',
+                            'rgba(79, 70, 229, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(165, 180, 252, 1)',
+                            'rgba(129, 140, 248, 1)',
+                            'rgba(79, 70, 229, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` ${context.dataset.label}: €${context.raw.toFixed(2)}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: translations['en'].chart_label
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // --- Navbar Intersection Observer ---
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const navMap = new Map();
+            navLinks.forEach(link => navMap.set(link.dataset.target, link));
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        const activeLink = navMap.get(id);
+                        if (activeLink) activeLink.classList.add('active');
+                    }
+                });
+            }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+
+            sections.forEach(section => observer.observe(section));
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = 80; // slightly more than h-16 (64px) for breathing room
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+
+            // --- Initial State ---
+            updateRoleContent('tutor');
+        });
+    </script>
+</body>
+</html>
