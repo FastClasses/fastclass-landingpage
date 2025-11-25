@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Chosen Palette: Warm Neutrals (White, Gray, Indigo/Purple) -->
-    <!-- Application Structure Plan: UI Updates: Responsive Mobile Navigation added. -->
+    <!-- Application Structure Plan: UI Updates: Switched Contact Form to JSON submission to fix validation errors. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         .nav-link {
@@ -80,6 +80,8 @@
                         <a href="#roles" data-target="roles" class="nav-link" data-i18n="nav_roles">Roles</a>
                         <a href="#data" data-target="data" class="nav-link" data-i18n="nav_data">Data</a>
                         <a href="#scalability" data-target="scalability" class="nav-link" data-i18n="nav_scalability">Scalability</a>
+                        <!-- Added Contact Link -->
+                        <a href="#contact" data-target="contact" class="nav-link" data-i18n="nav_contact">Contact</a>
                     </div>
                     
                     <!-- Language Dropdown (Desktop) -->
@@ -129,6 +131,7 @@
                 <a href="#roles" class="mobile-nav-link" data-i18n="nav_roles">Roles</a>
                 <a href="#data" class="mobile-nav-link" data-i18n="nav_data">Data</a>
                 <a href="#scalability" class="mobile-nav-link" data-i18n="nav_scalability">Scalability</a>
+                <a href="#contact" class="mobile-nav-link" data-i18n="nav_contact">Contact</a>
             </div>
             <div class="pt-4 pb-4 border-t border-gray-200 px-5">
                 <div class="flex items-center justify-between">
@@ -398,6 +401,63 @@
                 </div>
             </div>
         </section>
+
+        <!-- Section 7: Contact -->
+        <section id="contact" class="py-16 md:py-24 bg-indigo-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    <!-- Text Section -->
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="contact_title">Get In Touch</h2>
+                        <p class="mt-4 text-lg text-gray-600 leading-relaxed" data-i18n="contact_desc">
+                            Ready to optimize your center's operations? Send us a message to request a demo, ask about pricing, or get technical support. We will get back to you shortly.
+                        </p>
+                        
+                        <div class="mt-8 space-y-4">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
+                                    ✉️
+                                </div>
+                                <span class="ml-4 text-lg text-gray-700">contact@fastclass.com</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
+                                    📞
+                                </div>
+                                <span class="ml-4 text-lg text-gray-700">+351 21 123 4567</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Section -->
+                    <div class="bg-white rounded-2xl shadow-xl p-8">
+                        <form id="contactForm" ACTION="https://formspree.io/f/xpweknal" method="POST" class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700" data-i18n="label_name">Name</label>
+                                <input type="text" id="name" name="name" required class="mt-1 block w-full px-4 py-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-50 border">
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700" data-i18n="label_email">Email</label>
+                                <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-50 border">
+                            </div>
+
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700" data-i18n="label_message">Message</label>
+                                <textarea id="message" name="message" rows="4" required class="mt-1 block w-full px-4 py-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-50 border"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                                <span data-i18n="btn_submit">Send Message</span>
+                            </button>
+                        </form>
+                        <div id="formSuccess" class="hidden mt-4 p-4 bg-green-50 text-green-700 rounded-md text-center border border-green-200">
+                            <span data-i18n="success_message">Message sent successfully! We will contact you soon.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
@@ -423,6 +483,7 @@
                 nav_roles: "Roles",
                 nav_data: "Data",
                 nav_scalability: "Scalability",
+                nav_contact: "Contact",
                 hero_welcome: "Welcome to",
                 hero_subtitle: "Next-Gen Tutorship Center Management. A Role-Based, Data-Driven Platform for Operations & Finance.",
                 problem_title: "Managing a Center is Chaos",
@@ -479,6 +540,13 @@
                 scale_feat_2_desc: "A reserved maintenance backdoor for our team to handle bug fixes and deploy updates seamlessly.",
                 scale_feat_3_title: "Exportable Data",
                 scale_feat_3_desc: "Center Managers can pull 'Excel-like' dumps for any custom analysis or offline reporting they need.",
+                contact_title: "Get In Touch",
+                contact_desc: "Ready to optimize your center's operations? Send us a message to request a demo, ask about pricing, or get technical support. We will get back to you shortly.",
+                label_name: "Name",
+                label_email: "Email",
+                label_message: "Message",
+                btn_submit: "Send Message",
+                success_message: "Message sent successfully! We will contact you soon.",
                 footer_subtitle: "Next-Gen Tutorship Management.",
                 footer_copyright: "&copy; 2025 FastClass. All rights reserved.",
                 chart_label: "Payout Rate (€/hr)",
@@ -491,6 +559,7 @@
                 nav_roles: "Funções",
                 nav_data: "Dados",
                 nav_scalability: "Escalabilidade",
+                nav_contact: "Contacto",
                 hero_welcome: "Bem-vindo à",
                 hero_subtitle: "Gestão de Centros de Estudos de Nova Geração. Uma plataforma baseada em dados e permissões para Operações e Finanças.",
                 problem_title: "Gerir um Centro é um Caos",
@@ -547,6 +616,13 @@
                 scale_feat_2_desc: "Uma porta de manutenção reservada para a nossa equipa tratar de correções de bugs e atualizações sem problemas.",
                 scale_feat_3_title: "Dados Exportáveis",
                 scale_feat_3_desc: "Os Gestores de Centro podem extrair dados tipo 'Excel' para qualquer análise personalizada ou relatório offline.",
+                contact_title: "Entre em Contacto",
+                contact_desc: "Pronto para otimizar as operações do seu centro? Envie-nos uma mensagem para pedir uma demonstração, saber preços ou obter suporte técnico. Entraremos em contacto brevemente.",
+                label_name: "Nome",
+                label_email: "Email",
+                label_message: "Mensagem",
+                btn_submit: "Enviar Mensagem",
+                success_message: "Mensagem enviada com sucesso! Entraremos em contacto em breve.",
                 footer_subtitle: "Gestão de Explicações de Nova Geração.",
                 footer_copyright: "&copy; 2025 FastClass. Todos os direitos reservados.",
                 chart_label: "Valor Hora (€/hr)",
@@ -727,6 +803,55 @@
                     if (!dropdownBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
                         dropdownMenu.classList.add('hidden');
                     }
+                });
+            }
+
+            // --- Contact Form Logic ---
+            const contactForm = document.getElementById('contactForm');
+            if(contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const btn = this.querySelector('button');
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = 'Sending...';
+                    btn.disabled = true;
+                    
+                    // FIXED: Use JSON submission for better compatibility
+                    const formData = new FormData(contactForm);
+                    const object = Object.fromEntries(formData);
+                    const json = JSON.stringify(object);
+                    
+                    fetch("https://formspree.io/f/xpweknal", {
+                        method: "POST",
+                        body: json,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        }
+                    }).then(response => {
+                        if (response.ok) {
+                            document.getElementById('formSuccess').classList.remove('hidden');
+                            contactForm.reset();
+                            setTimeout(() => {
+                                document.getElementById('formSuccess').classList.add('hidden');
+                            }, 5000);
+                        } else {
+                            response.json().then(data => {
+                                if (Object.hasOwn(data, 'errors')) {
+                                    alert(data["errors"].map(error => error["message"]).join(", "));
+                                } else {
+                                    alert("Oops! There was a problem submitting your form");
+                                }
+                            })
+                        }
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    }).catch(error => {
+                        alert("Oops! There was a problem submitting your form");
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    });
                 });
             }
 
