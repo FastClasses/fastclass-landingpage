@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FastClass - Center Management Platform</title>
-    <link rel="icon" type="image/x-icon" href="LogoSemNomeSemFundo.png">
+    <link rel="icon" type="image/png" href="LogoSemNomeSemFundo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Chosen Palette: Warm Neutrals (White, Gray, Indigo/Purple) -->
@@ -14,11 +15,12 @@
         .nav-link {
             @apply px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors cursor-pointer;
         }
+
         /* Active Nav Link - Purple Letters */
         .nav-link.active {
             @apply text-purple-700 font-extrabold bg-purple-50;
         }
-        
+
         /* Mobile Nav Link Styles */
         .mobile-nav-link {
             @apply block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-purple-700 hover:bg-purple-50 transition-colors;
@@ -27,9 +29,11 @@
         .flow-step {
             @apply bg-white border-2 border-gray-300 rounded-lg p-4 text-center cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-indigo-500;
         }
+
         .flow-step.active {
             @apply border-indigo-600 bg-indigo-50 shadow-xl scale-105;
         }
+
         .flow-arrow {
             @apply text-3xl text-gray-400 mx-2 hidden md:block;
         }
@@ -38,6 +42,7 @@
         .role-button {
             @apply px-6 py-3 text-sm md:text-base font-bold rounded-2xl border-2 border-gray-200 bg-white text-gray-500 transition-all duration-300 hover:border-purple-300 hover:text-purple-600;
         }
+
         .role-button.active {
             @apply text-purple-700 border-purple-600 bg-purple-50 shadow-md transform scale-105;
         }
@@ -51,54 +56,71 @@
             height: 300px;
             max-height: 400px;
         }
+
         @media (min-width: 768px) {
             .chart-container {
                 height: 350px;
             }
         }
+
         .role-image {
             transition: opacity 0.3s ease-in-out;
         }
     </style>
 </head>
+
 <body class="bg-gray-50 font-sans antialiased">
 
     <!-- Header & Navigation -->
-    <nav id="navbar" class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 transition-all duration-300">
+    <nav id="navbar"
+        class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <span class="text-2xl font-extrabold text-indigo-600 tracking-tight">FastClass</span>
+                    <a href="#" onclick="window.scrollTo({ top: 0, behavior: 'smooth' }); return false;"
+                        class="flex items-center cursor-pointer transition-opacity hover:opacity-80 select-none">
+                        <img src="LogoFastClass.png" alt="FastClass Logo" class="h-16 w-auto">
+                    </a>
                 </div>
-                
+
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#problem" data-target="problem" class="nav-link" data-i18n="nav_problem">The Problem</a>
-                        <a href="#solution" data-target="solution" class="nav-link" data-i18n="nav_solution">The Solution</a>
-                        <a href="#lifecycle" data-target="lifecycle" class="nav-link" data-i18n="nav_lifecycle">Lifecycle</a>
+                        <a href="#problem" data-target="problem" class="nav-link" data-i18n="nav_problem">The
+                            Problem</a>
+                        <a href="#solution" data-target="solution" class="nav-link" data-i18n="nav_solution">The
+                            Solution</a>
+                        <a href="#lifecycle" data-target="lifecycle" class="nav-link"
+                            data-i18n="nav_lifecycle">Lifecycle</a>
                         <a href="#roles" data-target="roles" class="nav-link" data-i18n="nav_roles">Roles</a>
                         <a href="#data" data-target="data" class="nav-link" data-i18n="nav_data">Data</a>
-                        <a href="#scalability" data-target="scalability" class="nav-link" data-i18n="nav_scalability">Scalability</a>
+                        <a href="#scalability" data-target="scalability" class="nav-link"
+                            data-i18n="nav_scalability">Scalability</a>
                         <!-- Added Contact Link -->
                         <a href="#contact" data-target="contact" class="nav-link" data-i18n="nav_contact">Contact</a>
                     </div>
-                    
+
                     <!-- Language Dropdown (Desktop) -->
                     <div class="ml-6 relative border-l pl-6 border-gray-300">
-                        <button id="langDropdownBtn" class="flex items-center text-sm font-bold text-indigo-600 hover:text-indigo-800 focus:outline-none transition-colors">
+                        <button id="langDropdownBtn"
+                            class="flex items-center text-sm font-bold text-indigo-600 hover:text-indigo-800 focus:outline-none transition-colors">
                             <span id="currentLangLabel">EN</span>
                             <span class="ml-1 text-xs">▼</span>
                         </button>
-                        
+
                         <!-- Dropdown Menu -->
-                        <div id="langDropdownMenu" class="hidden absolute right-0 top-full mt-2 w-32 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50 overflow-hidden transform origin-top-right transition-all duration-200">
+                        <div id="langDropdownMenu"
+                            class="hidden absolute right-0 top-full mt-2 w-32 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50 overflow-hidden transform origin-top-right transition-all duration-200">
                             <div class="py-1">
-                                <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors" onclick="changeLanguage('en')">
+                                <button
+                                    class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                                    onclick="changeLanguage('en')">
                                     English
                                 </button>
-                                <button class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors" onclick="changeLanguage('pt')">
+                                <button
+                                    class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                                    onclick="changeLanguage('pt')">
                                     Português
                                 </button>
                             </div>
@@ -108,15 +130,21 @@
 
                 <!-- Mobile Menu Button -->
                 <div class="-mr-2 flex md:hidden">
-                    <button type="button" id="mobile-menu-btn" class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-purple-600 hover:bg-purple-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500" aria-controls="mobile-menu" aria-expanded="false">
+                    <button type="button" id="mobile-menu-btn"
+                        class="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-purple-600 hover:bg-purple-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                        aria-controls="mobile-menu" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>
                         <!-- Icon when menu is closed -->
-                        <svg id="icon-menu-closed" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <svg id="icon-menu-closed" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                         <!-- Icon when menu is open -->
-                        <svg id="icon-menu-open" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        <svg id="icon-menu-open" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
@@ -138,8 +166,10 @@
                 <div class="flex items-center justify-between">
                     <span class="text-sm font-bold text-gray-500 uppercase tracking-wider">Language</span>
                     <div class="flex gap-3">
-                        <button onclick="changeLanguage('en'); toggleMobileMenu()" class="px-4 py-2 rounded-lg border-2 border-gray-200 text-sm font-bold text-gray-700 bg-white hover:border-purple-500 hover:text-purple-700 transition-all shadow-sm">EN</button>
-                        <button onclick="changeLanguage('pt'); toggleMobileMenu()" class="px-4 py-2 rounded-lg border-2 border-gray-200 text-sm font-bold text-gray-700 bg-white hover:border-purple-500 hover:text-purple-700 transition-all shadow-sm">PT</button>
+                        <button onclick="changeLanguage('en'); toggleMobileMenu()"
+                            class="px-4 py-2 rounded-lg border-2 border-gray-200 text-sm font-bold text-gray-700 bg-white hover:border-purple-500 hover:text-purple-700 transition-all shadow-sm">EN</button>
+                        <button onclick="changeLanguage('pt'); toggleMobileMenu()"
+                            class="px-4 py-2 rounded-lg border-2 border-gray-200 text-sm font-bold text-gray-700 bg-white hover:border-purple-500 hover:text-purple-700 transition-all shadow-sm">PT</button>
                     </div>
                 </div>
             </div>
@@ -150,7 +180,8 @@
         <!-- Hero Section -->
         <header class="relative bg-gray-900 text-white overflow-hidden">
             <div class="absolute inset-0">
-                <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Education Background" class="w-full h-full object-cover opacity-30">
+                <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                    alt="Education Background" class="w-full h-full object-cover opacity-30">
             </div>
             <div class="relative max-w-7xl mx-auto py-24 px-4 sm:px-6 lg:px-8 text-center">
                 <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl">
@@ -168,32 +199,43 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col md:flex-row items-center gap-12 mb-12">
                     <div class="md:w-1/2">
-                        <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="problem_title">Managing a Center is Chaos</h2>
+                        <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="problem_title">Managing a Center is
+                            Chaos</h2>
                         <p class="mt-4 text-lg text-gray-600" data-i18n="problem_desc">
-                            Tutorship centers face constant challenges from fragmented data, scheduling conflicts, and opaque financials. Without a centralized system, growth is impossible.
+                            Tutorship centers face constant challenges from fragmented data, scheduling conflicts, and
+                            opaque financials. Without a centralized system, growth is impossible.
                         </p>
                     </div>
                     <div class="md:w-1/2 rounded-xl overflow-hidden shadow-lg">
-                         <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Chaotic planning" class="w-full h-64 object-cover">
+                        <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                            alt="Chaotic planning" class="w-full h-64 object-cover">
                     </div>
                 </div>
-                
+
                 <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-indigo-500">
-                        <h3 class="text-xl font-semibold text-indigo-600" data-i18n="card_schedule_title">Scheduling Conflicts</h3>
-                        <p class="mt-3 text-gray-600" data-i18n="card_schedule_desc">Tutors and students often misalign, leading to confusion and lost time.</p>
+                        <h3 class="text-xl font-semibold text-indigo-600" data-i18n="card_schedule_title">Scheduling
+                            Conflicts</h3>
+                        <p class="mt-3 text-gray-600" data-i18n="card_schedule_desc">Tutors and students often misalign,
+                            leading to confusion and lost time.</p>
                     </div>
                     <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-indigo-500">
-                        <h3 class="text-xl font-semibold text-indigo-600" data-i18n="card_finance_title">Financial Blind Spots</h3>
-                        <p class="mt-3 text-gray-600" data-i18n="card_finance_desc">Hard to track who owes what (Debt vs. Prepaid Packs).</p>
+                        <h3 class="text-xl font-semibold text-indigo-600" data-i18n="card_finance_title">Financial Blind
+                            Spots</h3>
+                        <p class="mt-3 text-gray-600" data-i18n="card_finance_desc">Hard to track who owes what (Debt
+                            vs. Prepaid Packs).</p>
                     </div>
                     <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-indigo-500">
-                        <h3 class="text-xl font-semibold text-indigo-600" data-i18n="card_data_title">Data Fragmentation</h3>
-                        <p class="mt-3 text-gray-600" data-i18n="card_data_desc">Attendance, homework, and billing data are stored in different places.</p>
+                        <h3 class="text-xl font-semibold text-indigo-600" data-i18n="card_data_title">Data Fragmentation
+                        </h3>
+                        <p class="mt-3 text-gray-600" data-i18n="card_data_desc">Attendance, homework, and billing data
+                            are stored in different places.</p>
                     </div>
                     <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-indigo-500">
-                        <h3 class="text-xl font-semibold text-indigo-600" data-i18n="card_billing_title">Billing Nightmares</h3>
-                        <p class="mt-3 text-gray-600" data-i18n="card_billing_desc">Calculating tutor payouts vs. student bills manually is error-prone.</p>
+                        <h3 class="text-xl font-semibold text-indigo-600" data-i18n="card_billing_title">Billing
+                            Nightmares</h3>
+                        <p class="mt-3 text-gray-600" data-i18n="card_billing_desc">Calculating tutor payouts vs.
+                            student bills manually is error-prone.</p>
                     </div>
                 </div>
             </div>
@@ -201,31 +243,39 @@
 
         <!-- Section 2: The Solution -->
         <section id="solution" class="py-16 md:py-24 bg-white relative overflow-hidden">
-             <!-- Background decoration -->
-            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-indigo-50 opacity-50 blur-3xl"></div>
-            
+            <!-- Background decoration -->
+            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-indigo-50 opacity-50 blur-3xl">
+            </div>
+
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
                 <div class="text-center">
-                    <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="solution_title">One Platform, Five Roles, Total Control</h2>
+                    <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="solution_title">One Platform, Five
+                        Roles, Total Control</h2>
                     <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto" data-i18n="solution_subtitle">
-                        FastClass is a centralized web platform ensuring data isolation and customized management. 
+                        FastClass is a centralized web platform ensuring data isolation and customized management.
                     </p>
                 </div>
                 <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="p-8 rounded-2xl bg-gray-50 hover:bg-indigo-50 transition-colors duration-300">
                         <span class="text-4xl">🔐</span>
-                        <h3 class="text-xl font-bold text-gray-900 mt-4" data-i18n="pillar_rbac_title">1. Role-Based Access</h3>
-                        <p class="mt-3 text-gray-600" data-i18n="pillar_rbac_desc">Every user (Director, Tutor, Parent) sees exactly what they need, and nothing they don't.</p>
+                        <h3 class="text-xl font-bold text-gray-900 mt-4" data-i18n="pillar_rbac_title">1. Role-Based
+                            Access</h3>
+                        <p class="mt-3 text-gray-600" data-i18n="pillar_rbac_desc">Every user (Director, Tutor, Parent)
+                            sees exactly what they need, and nothing they don't.</p>
                     </div>
                     <div class="p-8 rounded-2xl bg-gray-50 hover:bg-indigo-50 transition-colors duration-300">
                         <span class="text-4xl">💳</span>
-                        <h3 class="text-xl font-bold text-gray-900 mt-4" data-i18n="pillar_billing_title">2. Hybrid Billing Engine</h3>
-                        <p class="mt-3 text-gray-600" data-i18n="pillar_billing_desc">Seamlessly handles both prepaid hour packs and post-paid monthly billing in one system.</p>
+                        <h3 class="text-xl font-bold text-gray-900 mt-4" data-i18n="pillar_billing_title">2. Hybrid
+                            Billing Engine</h3>
+                        <p class="mt-3 text-gray-600" data-i18n="pillar_billing_desc">Seamlessly handles both prepaid
+                            hour packs and post-paid monthly billing in one system.</p>
                     </div>
                     <div class="p-8 rounded-2xl bg-gray-50 hover:bg-indigo-50 transition-colors duration-300">
                         <span class="text-4xl">📊</span>
-                        <h3 class="text-xl font-bold text-gray-900 mt-4" data-i18n="pillar_metrics_title">3. Automated Metrics</h3>
-                        <p class="mt-3 text-gray-600" data-i18n="pillar_metrics_desc">Instantly track everything from individual tutor payouts to overall center revenue.</p>
+                        <h3 class="text-xl font-bold text-gray-900 mt-4" data-i18n="pillar_metrics_title">3. Automated
+                            Metrics</h3>
+                        <p class="mt-3 text-gray-600" data-i18n="pillar_metrics_desc">Instantly track everything from
+                            individual tutor payouts to overall center revenue.</p>
                     </div>
                 </div>
             </div>
@@ -235,13 +285,16 @@
         <section id="lifecycle" class="py-16 md:py-24 bg-gray-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
-                    <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="lifecycle_title">From Schedule to Invoice</h2>
+                    <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="lifecycle_title">From Schedule to
+                        Invoice</h2>
                     <p class="mt-4 text-lg text-gray-600" data-i18n="lifecycle_subtitle">
-                        FastClass automates the entire operational flow. Click on any step below to see the details of how it works.
+                        FastClass automates the entire operational flow. Click on any step below to see the details of
+                        how it works.
                     </p>
                 </div>
                 <div class="mt-16">
-                    <div id="flowchart" class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                    <div id="flowchart"
+                        class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
                         <div class="flow-step" data-flow="schedule">
                             <span class="text-2xl">🗓️</span>
                             <p class="font-semibold mt-2" data-i18n="step_1">1. Scheduling</p>
@@ -262,8 +315,10 @@
                             <p class="font-semibold mt-2" data-i18n="step_4">4. Result & Reports</p>
                         </div>
                     </div>
-                    <div id="flow-details" class="mt-12 max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-xl min-h-[150px] flex items-center justify-center border border-gray-100">
-                        <p id="flow-text" class="text-center text-gray-700 text-lg" data-i18n="flow_click_prompt">Click a step to see details.</p>
+                    <div id="flow-details"
+                        class="mt-12 max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-xl min-h-[150px] flex items-center justify-center border border-gray-100">
+                        <p id="flow-text" class="text-center text-gray-700 text-lg" data-i18n="flow_click_prompt">Click
+                            a step to see details.</p>
                     </div>
                 </div>
             </div>
@@ -273,9 +328,11 @@
         <section id="roles" class="py-16 md:py-24 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center">
-                    <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="roles_title">Empowering the Right People</h2>
+                    <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="roles_title">Empowering the Right
+                        People</h2>
                     <p class="mt-4 text-lg text-gray-600" data-i18n="roles_subtitle">
-                        The platform provides specific, tailored capabilities for each user. Click a role to explore its unique permissions.
+                        The platform provides specific, tailored capabilities for each user. Click a role to explore its
+                        unique permissions.
                     </p>
                 </div>
                 <div id="role-buttons" class="mt-12 flex flex-wrap justify-center gap-3 md:gap-4">
@@ -287,7 +344,8 @@
                 </div>
                 <div class="mt-10 max-w-5xl mx-auto">
                     <!-- JS will populate this with 2 columns: Text + Image -->
-                    <div id="role-content" class="bg-gray-50 rounded-2xl shadow-inner border border-gray-200 overflow-hidden transition-all duration-300">
+                    <div id="role-content"
+                        class="bg-gray-50 rounded-2xl shadow-inner border border-gray-200 overflow-hidden transition-all duration-300">
                     </div>
                 </div>
             </div>
@@ -299,47 +357,58 @@
                 <div class="text-center mb-16">
                     <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="data_title">Granular Data Tracking</h2>
                     <p class="mt-4 text-lg text-gray-600" data-i18n="data_subtitle">
-                        Every piece of data is captured, linked, and analyzed to provide clear insights into both academics and finance.
+                        Every piece of data is captured, linked, and analyzed to provide clear insights into both
+                        academics and finance.
                     </p>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <!-- Left Side: Attributes -->
                     <div class="bg-white p-8 rounded-2xl shadow-lg h-full">
-                        <h3 class="text-2xl font-bold text-gray-800 border-b pb-4 mb-6" data-i18n="class_attr_title">Class Attributes</h3>
-                        <p class="text-gray-600 mb-4" data-i18n="class_attr_desc">Tutors log crucial academic data for every session:</p>
+                        <h3 class="text-2xl font-bold text-gray-800 border-b pb-4 mb-6" data-i18n="class_attr_title">
+                            Class Attributes</h3>
+                        <p class="text-gray-600 mb-4" data-i18n="class_attr_desc">Tutors log crucial academic data for
+                            every session:</p>
                         <ul class="space-y-4 text-gray-700">
                             <li class="flex items-start">
                                 <span class="mr-2 mt-1 text-green-500">✔</span>
-                                <span data-i18n="attr_attendance"><strong>Attendance:</strong> Present/Absent tracking.</span>
+                                <span data-i18n="attr_attendance"><strong>Attendance:</strong> Present/Absent
+                                    tracking.</span>
                             </li>
                             <li class="flex items-start">
                                 <span class="mr-2 mt-1 text-green-500">✔</span>
-                                <span data-i18n="attr_lateness"><strong>Lateness:</strong> Precise minute tracking (metrics only - does not affect price).</span>
+                                <span data-i18n="attr_lateness"><strong>Lateness:</strong> Precise minute tracking
+                                    (metrics only - does not affect price).</span>
                             </li>
                             <li class="flex items-start">
                                 <span class="mr-2 mt-1 text-green-500">✔</span>
-                                <span data-i18n="attr_homework"><strong>Homework:</strong> Tracked for academic reporting and parent visibility.</span>
+                                <span data-i18n="attr_homework"><strong>Homework:</strong> Tracked for academic
+                                    reporting and parent visibility.</span>
                             </li>
                             <li class="flex items-start">
                                 <span class="mr-2 mt-1 text-green-500">✔</span>
-                                <span data-i18n="attr_obs"><strong>Observations:</strong> Qualitative notes for parents and managers.</span>
+                                <span data-i18n="attr_obs"><strong>Observations:</strong> Qualitative notes for parents
+                                    and managers.</span>
                             </li>
                         </ul>
-                        <h3 class="text-2xl font-bold text-gray-800 border-b pb-4 mb-6 mt-10" data-i18n="billing_attr_title">Billing Attributes</h3>
+                        <h3 class="text-2xl font-bold text-gray-800 border-b pb-4 mb-6 mt-10"
+                            data-i18n="billing_attr_title">Billing Attributes</h3>
                         <ul class="space-y-4 text-gray-700">
-                             <li class="flex items-start">
+                            <li class="flex items-start">
                                 <span class="mr-2 mt-1 text-blue-500">➜</span>
-                                <span data-i18n="attr_payout"><strong>Tutor Payouts:</strong> Differentiated rates for Basic, Secondary, and Superior education levels.</span>
+                                <span data-i18n="attr_payout"><strong>Tutor Payouts:</strong> Differentiated rates for
+                                    Basic, Secondary, and Superior education levels.</span>
                             </li>
-                             <li class="flex items-start">
+                            <li class="flex items-start">
                                 <span class="mr-2 mt-1 text-blue-500">➜</span>
-                                <span data-i18n="attr_id"><strong>Student ID:</strong> Linked to Citizen Card & Tax ID for automatic, compliant invoicing.</span>
+                                <span data-i18n="attr_id"><strong>Student ID:</strong> Linked to Citizen Card & Tax ID
+                                    for automatic, compliant invoicing.</span>
                             </li>
                         </ul>
                     </div>
                     <!-- Right Side: Chart -->
                     <div class="bg-white p-8 rounded-2xl shadow-lg h-full flex flex-col justify-center">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4" data-i18n="chart_title">Sample Tutor Payout Logic</h3>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4" data-i18n="chart_title">Sample Tutor Payout
+                            Logic</h3>
                         <p class="text-sm text-gray-500 mb-6" data-i18n="chart_subtitle">
                             FastClass automatically calculates tutor earnings based on class difficulty.
                         </p>
@@ -356,48 +425,62 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
-                         <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="scale_title">Built for Growth</h2>
+                        <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="scale_title">Built for Growth</h2>
                         <p class="mt-4 text-lg text-gray-600" data-i18n="scale_desc">
-                            FastClass is designed to scale with your business, from a single center to a national franchise.
+                            FastClass is designed to scale with your business, from a single center to a national
+                            franchise.
                         </p>
                         <div class="mt-8 space-y-6">
                             <div class="flex">
                                 <div class="flex-shrink-0">
-                                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                                    <div
+                                        class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                                         🌍
                                     </div>
                                 </div>
                                 <div class="ml-4">
-                                    <h3 class="text-lg leading-6 font-medium text-gray-900" data-i18n="scale_feat_1_title">Multi-Tenant Architecture</h3>
-                                    <p class="mt-2 text-base text-gray-500" data-i18n="scale_feat_1_desc">Subdomains allow for infinite, secure scaling for different tutoring centers, each with its own data.</p>
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900"
+                                        data-i18n="scale_feat_1_title">Multi-Tenant Architecture</h3>
+                                    <p class="mt-2 text-base text-gray-500" data-i18n="scale_feat_1_desc">Subdomains
+                                        allow for infinite, secure scaling for different tutoring centers, each with its
+                                        own data.</p>
                                 </div>
                             </div>
                             <div class="flex">
                                 <div class="flex-shrink-0">
-                                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                                    <div
+                                        class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                                         🛠️
                                     </div>
                                 </div>
                                 <div class="ml-4">
-                                    <h3 class="text-lg leading-6 font-medium text-gray-900" data-i18n="scale_feat_2_title">Admin Access</h3>
-                                    <p class="mt-2 text-base text-gray-500" data-i18n="scale_feat_2_desc">A reserved maintenance backdoor for our team to handle bug fixes and deploy updates seamlessly.</p>
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900"
+                                        data-i18n="scale_feat_2_title">Admin Access</h3>
+                                    <p class="mt-2 text-base text-gray-500" data-i18n="scale_feat_2_desc">A reserved
+                                        maintenance backdoor for our team to handle bug fixes and deploy updates
+                                        seamlessly.</p>
                                 </div>
                             </div>
                             <div class="flex">
                                 <div class="flex-shrink-0">
-                                    <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                                    <div
+                                        class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                                         📥
                                     </div>
                                 </div>
                                 <div class="ml-4">
-                                    <h3 class="text-lg leading-6 font-medium text-gray-900" data-i18n="scale_feat_3_title">Exportable Data</h3>
-                                    <p class="mt-2 text-base text-gray-500" data-i18n="scale_feat_3_desc">Center Managers can pull "Excel-like" dumps for any custom analysis or offline reporting they need.</p>
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900"
+                                        data-i18n="scale_feat_3_title">Exportable Data</h3>
+                                    <p class="mt-2 text-base text-gray-500" data-i18n="scale_feat_3_desc">Center
+                                        Managers can pull "Excel-like" dumps for any custom analysis or offline
+                                        reporting they need.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="rounded-xl overflow-hidden shadow-xl">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Growth and Scaling" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                            alt="Growth and Scaling" class="w-full h-full object-cover">
                     </div>
                 </div>
             </div>
@@ -411,18 +494,21 @@
                     <div>
                         <h2 class="text-3xl font-extrabold text-gray-900" data-i18n="contact_title">Get In Touch</h2>
                         <p class="mt-4 text-lg text-gray-600 leading-relaxed" data-i18n="contact_desc">
-                            Ready to optimize your center's operations? Send us a message to request a demo, ask about pricing, or get technical support. We will get back to you shortly.
+                            Ready to optimize your center's operations? Send us a message to request a demo, ask about
+                            pricing, or get technical support. We will get back to you shortly.
                         </p>
-                        
+
                         <div class="mt-8 space-y-4">
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
+                                <div
+                                    class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
                                     ✉️
                                 </div>
                                 <span class="ml-4 text-lg text-gray-700">joao.teixeira@fastclass.pt</span>
                             </div>
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
+                                <div
+                                    class="flex-shrink-0 h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
                                     📞
                                 </div>
                                 <span class="ml-4 text-lg text-gray-700">+351 933 803 300</span>
@@ -434,26 +520,35 @@
                     <div class="bg-white rounded-2xl shadow-xl p-8">
                         <form id="contactForm" ACTION="https://formspree.io/f/xpweknal" method="POST" class="space-y-6">
                             <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700" data-i18n="label_name">Name</label>
-                                <input type="text" id="name" name="name" required class="mt-1 block w-full px-4 py-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-50 border">
-                            </div>
-                            
-                            <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700" data-i18n="label_email">Email</label>
-                                <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-50 border">
+                                <label for="name" class="block text-sm font-medium text-gray-700"
+                                    data-i18n="label_name">Name</label>
+                                <input type="text" id="name" name="name" required
+                                    class="mt-1 block w-full px-4 py-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-50 border">
                             </div>
 
                             <div>
-                                <label for="message" class="block text-sm font-medium text-gray-700" data-i18n="label_message">Message</label>
-                                <textarea id="message" name="message" rows="4" required class="mt-1 block w-full px-4 py-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-50 border"></textarea>
+                                <label for="email" class="block text-sm font-medium text-gray-700"
+                                    data-i18n="label_email">Email</label>
+                                <input type="email" id="email" name="email" required
+                                    class="mt-1 block w-full px-4 py-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-50 border">
                             </div>
 
-                            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700"
+                                    data-i18n="label_message">Message</label>
+                                <textarea id="message" name="message" rows="4" required
+                                    class="mt-1 block w-full px-4 py-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 bg-gray-50 border"></textarea>
+                            </div>
+
+                            <button type="submit"
+                                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
                                 <span data-i18n="btn_submit">Send Message</span>
                             </button>
                         </form>
-                        <div id="formSuccess" class="hidden mt-4 p-4 bg-green-50 text-green-700 rounded-md text-center border border-green-200">
-                            <span data-i18n="success_message">Message sent successfully! We will contact you soon.</span>
+                        <div id="formSuccess"
+                            class="hidden mt-4 p-4 bg-green-50 text-green-700 rounded-md text-center border border-green-200">
+                            <span data-i18n="success_message">Message sent successfully! We will contact you
+                                soon.</span>
                         </div>
                     </div>
                 </div>
@@ -463,7 +558,8 @@
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-300">
-        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+        <div
+            class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
             <div class="mb-4 md:mb-0">
                 <span class="text-2xl font-bold text-white">FastClass</span>
                 <p class="mt-2 text-sm text-gray-400" data-i18n="footer_subtitle">Next-Gen Tutorship Management.</p>
@@ -686,7 +782,7 @@
         };
 
         // --- 3. App State & Logic ---
-        
+
         let currentLang = 'en';
         let currentRole = 'tutor';
         let chartInstance = null;
@@ -697,7 +793,7 @@
             const data = roleDetails[roleKey];
             const text = data[currentLang];
             const container = document.getElementById('role-content');
-            
+
             if (!container) return; // Guard clause if DOM not ready (though typically is when called)
 
             container.innerHTML = `
@@ -719,7 +815,7 @@
             const mobileMenu = document.getElementById('mobile-menu');
             const iconClosed = document.getElementById('icon-menu-closed');
             const iconOpen = document.getElementById('icon-menu-open');
-            
+
             if (mobileMenu.classList.contains('hidden')) {
                 mobileMenu.classList.remove('hidden');
                 iconClosed.classList.add('hidden');
@@ -732,23 +828,23 @@
         }
 
         // Global function to be called from HTML buttons
-        window.changeLanguage = function(lang) {
+        window.changeLanguage = function (lang) {
             currentLang = lang;
-            
+
             // 1. Update Static Text
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if(translations[lang][key]) {
+                if (translations[lang][key]) {
                     el.innerHTML = translations[lang][key];
                 }
             });
 
             // 2. Update Toggle Dropdown Button
             const langLabel = document.getElementById('currentLangLabel');
-            if(langLabel) {
+            if (langLabel) {
                 langLabel.textContent = lang.toUpperCase();
             }
-            
+
             // Close dropdown
             const dropdownMenu = document.getElementById('langDropdownMenu');
             if (dropdownMenu) dropdownMenu.classList.add('hidden');
@@ -756,16 +852,16 @@
             // 3. Update Dynamic Sections (Role & Flowchart)
             // Re-trigger role update to refresh text
             updateRoleContent(currentRole);
-            
+
             // Clear flowchart active state text to prompt
             document.querySelectorAll('.flow-step').forEach(s => s.classList.remove('active'));
             const flowText = document.getElementById('flow-text');
-            if(flowText) {
+            if (flowText) {
                 flowText.innerHTML = translations[lang].flow_click_prompt;
             }
 
             // 4. Update Chart
-            if(chartInstance) {
+            if (chartInstance) {
                 chartInstance.data.labels = translations[lang].chart_labels;
                 chartInstance.data.datasets[0].label = translations[lang].chart_label;
                 chartInstance.options.scales.y.title.text = translations[lang].chart_label;
@@ -793,7 +889,7 @@
             const dropdownBtn = document.getElementById('langDropdownBtn');
             const dropdownMenu = document.getElementById('langDropdownMenu');
 
-            if(dropdownBtn && dropdownMenu) {
+            if (dropdownBtn && dropdownMenu) {
                 dropdownBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     dropdownMenu.classList.toggle('hidden');
@@ -809,20 +905,20 @@
 
             // --- Contact Form Logic ---
             const contactForm = document.getElementById('contactForm');
-            if(contactForm) {
-                contactForm.addEventListener('submit', function(e) {
+            if (contactForm) {
+                contactForm.addEventListener('submit', function (e) {
                     e.preventDefault();
-                    
+
                     const btn = this.querySelector('button');
                     const originalText = btn.innerHTML;
                     btn.innerHTML = 'Sending...';
                     btn.disabled = true;
-                    
+
                     // FIXED: Use JSON submission for better compatibility
                     const formData = new FormData(contactForm);
                     const object = Object.fromEntries(formData);
                     const json = JSON.stringify(object);
-                    
+
                     fetch("https://formspree.io/f/xpweknal", {
                         method: "POST",
                         body: json,
@@ -889,7 +985,7 @@
 
             // --- Section 5: Data & Billing Chart ---
             const ctx = document.getElementById('payoutChart').getContext('2d');
-            
+
             chartInstance = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -917,7 +1013,7 @@
                         legend: { display: false },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     return ` ${context.dataset.label}: €${context.raw.toFixed(2)}`;
                                 }
                             }
@@ -934,7 +1030,7 @@
                     }
                 }
             });
-            
+
             // --- Navbar Intersection Observer ---
             const sections = document.querySelectorAll('section[id]');
             const navLinks = document.querySelectorAll('.nav-link');
@@ -964,7 +1060,7 @@
                         const headerOffset = 80; // slightly more than h-16 (64px) for breathing room
                         const elementPosition = targetElement.getBoundingClientRect().top;
                         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        
+
                         window.scrollTo({
                             top: offsetPosition,
                             behavior: "smooth"
@@ -978,4 +1074,5 @@
         });
     </script>
 </body>
+
 </html>
